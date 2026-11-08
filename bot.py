@@ -46,6 +46,10 @@ async def download_media(message: Message):
         if os.path.exists(output_filename):
             os.remove(output_filename)
 
+@dp.message(F.text == "/start")
+async def start_handler(message: Message):
+    await message.answer("שלום! שלח לי קישור מכל פלטפורמה נתמכת (טיקטוק, פייסבוק וכו') ואוריד לך אותו בקלות.")
+
 @dp.message()
 async def echo_handler(message: Message):
     await message.answer("שלום! שלח לי קישור מכל פלטפורמה נתמכת (טיקטוק, פייסבוק וכו') ואוריד לך אותו.")
