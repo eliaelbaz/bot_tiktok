@@ -11,13 +11,13 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 @dp.message(F.text.startswith("http"))
-async def download_tiktok_video(message: Message):
+async def download_media(message: Message):
     url = message.text.strip()
-    status_message = await message.answer("הבוט רץ וממתין להודעות...")
+    status_message = await message.answer("⏳ מוריד את המדיה עבורך, אנא המתן...")
     
-    output_filename = "downloaded_video.mp4"
+    output_filename = "downloaded_media.mp4"
     
-    # הגדרות yt-dlp כולל ה-User-Agent המעודכן למניעת חסימות טיקטוק
+    # הגדרות yt-dlp כולל ה-User-Agent למניעת חסימות
     ydl_opts = {
         'outtmpl': output_filename,
         'format': 'best',
@@ -27,7 +27,7 @@ async def download_tiktok_video(message: Message):
     }
     
     try:
-        # הורדת הסרטון
+        # הורדת הקובץ
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
             
@@ -39,7 +39,7 @@ async def download_tiktok_video(message: Message):
         await status_message.delete()
         
     except Exception as e:
-        await status_message.edit_text("❌ שגיאה בהורדת הסרטון. ודא שהקישור תקין.")
+        await status_message.edit_text("❌ שגיאה בהורדת הקובץ. ודא שהקישור תקין וציבורי.")
         
     finally:
         # ניקוי הקובץ המקומי מהשרת אחרי השליחה
@@ -48,7 +48,7 @@ async def download_tiktok_video(message: Message):
 
 @dp.message()
 async def echo_handler(message: Message):
-    await message.answer("שלום, אנא ספק את תיאור המשימה... שלח לי קישור של טיקטוק ואוריד לך אותו!")
+    await message.answer("שלום! שלח לי קישור מכל פלטפורמה נתמכת (טיקטוק, פייסבוק וכו') ואוריד לך אותו.")
 
 async def main():
     print("הבוט התחיל לעבוד...")
